@@ -19,12 +19,16 @@ config/name="Vikings"
 run/main_scene="res://Scenes/Menu.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Asset_Loader="*res://Scripts/Global_Scripts/Asset_Loader.gd"
+
 [display]
 
 window/size/width=1920
 window/size/height=1080
 window/stretch/mode="viewport"
-window/stretch/aspect="keep"
+window/stretch/aspect="keep_height"
 
 [rendering]
 
