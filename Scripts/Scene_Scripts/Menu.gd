@@ -10,6 +10,9 @@ func _ready():
 func quit():
 	get_tree().quit()
 
+func start_game():
+	Scene_Manager.load_scene("Game")
+
 #Options--------------------------------------------------------------------------------------
 var optionsVisible = false
 var tweenQueue = []

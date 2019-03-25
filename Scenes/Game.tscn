@@ -1,4 +1,28 @@
-[gd_scene format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Tiles/floor_tiles.tres" type="TileSet" id=1]
+[ext_resource path="res://Scripts/Prefab_Scripts/Grid.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Prefab_Scripts/Camera.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Prefabs/UI.tscn" type="PackedScene" id=4]
 
 [node name="Game" type="Node2D"]
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Grid" type="TileMap" parent="World"]
+mode = 1
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 128, 64 )
+format = 1
+script = ExtResource( 2 )
+
+[node name="Sorter" type="YSort" parent="World/Grid"]
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2( -970, -100 )
+anchor_mode = 0
+current = true
+script = ExtResource( 3 )
+
+[node name="UI" parent="Camera" instance=ExtResource( 4 )]
 
