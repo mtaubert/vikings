@@ -1,0 +1,129 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scripts/Prefab_Scripts/Viking_Sprites.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Vikings/body.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Vikings/head.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Vikings/hand.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Vikings/sword.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Vikings/foot.png" type="Texture" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -64 ), Vector2( 0, -66 ), Vector2( 0, -64 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.51, 0.51 ), Vector2( 0.5, 0.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Head:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 0.341511, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -117 ), Vector2( 0, -118 ), Vector2( 0, -117 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Head:scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.49, 0.5 ), Vector2( 0.5, 0.5 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Left_Hand:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -35, -65 ), Vector2( -33.0583, -69.1608 ), Vector2( -35, -65 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Right_Hand:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 35, -65 ), Vector2( 31.3939, -66.6643 ), Vector2( 35, -65 ) ]
+}
+
+[node name="Viking_Sprites" type="Node2D"]
+position = Vector2( 0, 3 )
+script = ExtResource( 1 )
+
+[node name="Body" type="Sprite" parent="."]
+position = Vector2( 0, -65.3484 )
+scale = Vector2( 0.508927, 0.508927 )
+texture = ExtResource( 2 )
+
+[node name="Head" type="Sprite" parent="."]
+position = Vector2( 0, -117.533 )
+scale = Vector2( 0.491073, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="Left_Hand" type="Sprite" parent="."]
+position = Vector2( -33.0901, -69.0926 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="Right_Hand" type="Sprite" parent="."]
+position = Vector2( 32.7009, -66.0611 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="Weapon" type="Sprite" parent="Right_Hand"]
+position = Vector2( 8.18867, -48.0233 )
+rotation = 0.174533
+texture = ExtResource( 5 )
+
+[node name="Left_Foot" type="Sprite" parent="."]
+position = Vector2( -16, -12 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="Right_Foot" type="Sprite" parent="."]
+position = Vector2( 16, -12 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 1 )
+

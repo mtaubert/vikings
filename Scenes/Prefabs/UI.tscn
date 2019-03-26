@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Prefab_Scripts/UI.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Styles/main_theme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Fonts/norse/Norse.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scenes/Prefabs/Viking_Sprites.tscn" type="PackedScene" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.12549, 0.12549, 0.12549, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="DynamicFont" id=2]
+size = 35
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+font_data = ExtResource( 3 )
 
 [node name="UI" type="Control"]
 anchor_right = 1.0
@@ -11,5 +29,73 @@ script = ExtResource( 1 )
 margin_right = 12.0
 margin_bottom = 20.0
 text = "Menu"
+
+[node name="Selection" type="Panel" parent="."]
+margin_top = 830.0
+margin_right = 300.0
+margin_bottom = 1080.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="Viking" type="Node2D" parent="Selection"]
+
+[node name="Viking_Name" type="Label" parent="Selection/Viking"]
+margin_left = 10.0
+margin_right = 290.0
+margin_bottom = 40.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 2 )
+text = "No unit selected"
+valign = 1
+clip_text = true
+
+[node name="Viking_Sprites" parent="Selection/Viking" instance=ExtResource( 4 )]
+position = Vector2( 50, 200 )
+
+[node name="Viking_Stats" type="VBoxContainer" parent="Selection/Viking"]
+editor/display_folded = true
+margin_left = 100.0
+margin_top = 40.0
+margin_right = 280.0
+margin_bottom = 230.0
+
+[node name="Strength" type="Label" parent="Selection/Viking/Viking_Stats"]
+margin_top = 9.0
+margin_right = 180.0
+margin_bottom = 35.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 3 )
+text = "Strength"
+valign = 1
+clip_text = true
+
+[node name="Speed" type="Label" parent="Selection/Viking/Viking_Stats"]
+margin_top = 57.0
+margin_right = 180.0
+margin_bottom = 83.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 3 )
+text = "Speed"
+valign = 1
+clip_text = true
+
+[node name="Intelligence" type="Label" parent="Selection/Viking/Viking_Stats"]
+margin_top = 105.0
+margin_right = 180.0
+margin_bottom = 131.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 3 )
+text = "Intelligence"
+valign = 1
+clip_text = true
+
+[node name="Toughness" type="Label" parent="Selection/Viking/Viking_Stats"]
+margin_top = 154.0
+margin_right = 180.0
+margin_bottom = 180.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 3 )
+text = "Toughness"
+valign = 1
+clip_text = true
 
 [connection signal="pressed" from="Menu" to="." method="goto_menu"]

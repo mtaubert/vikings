@@ -3,8 +3,6 @@ extends Node2D
 var difficultyOptions = ["Easy", "Medium", "Hard"]
 
 func _ready():
-	for child in $Background.get_children():
-		child.random_look()
 	$Options.hide()
 
 func quit():

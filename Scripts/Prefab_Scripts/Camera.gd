@@ -3,9 +3,11 @@ extends Camera2D
 var cameraMovement
 var cameraSpeed = 10
 
+onready var grid = get_parent().get_child(0).get_child(0)
+
+#Camera movement WIP
 func _process(delta):
 	cameraMovement = Vector2(0,0)
-	
 	var mousePos = get_viewport().get_mouse_position()
 	
 	if mousePos.x < 100:

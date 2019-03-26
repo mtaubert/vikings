@@ -13,11 +13,11 @@ var beard_3 = preload("res://Assets/Player/beard_3.png")
 var beards = [beard_1, beard_2, beard_3]
 var beardColors = [Color("#994d00"), Color("#ffffb3"), Color("#4d3319"), Color("#130d06")]
 
-var body_1 = preload("res://Assets/Player/body_1.png")
-var body_2 = preload("res://Assets/Player/body_2.png")
+#var body_1 = preload("res://Assets/Player/body_1.png")
+#var body_2 = preload("res://Assets/Player/body_2.png")
 var body_3 = preload("res://Assets/Player/body_3.png")
 var body_4 = preload("res://Assets/Player/body_4.png")
-var bodies = [body_1, body_2, body_3, body_4] 
+var bodies = [body_3, body_4] 
 var bodyColors = [Color("#b30000"), Color("#003300"), Color("#000066")] 
 
 var hand_blank = preload("res://Assets/Player/hand_blank.png")
@@ -27,3 +27,7 @@ var hands = [hand_blank, hand_skin]
 var helmet_1 = preload("res://Assets/Player/helmet_1.png")
 var helmet_2 = preload("res://Assets/Player/helmet_2.png")
 var helmets = [helmet_1, helmet_2]
+
+var body_1 = preload("res://Assets/Vikings/body_1.png")
+var body_2 = preload("res://Assets/Vikings/body_2.png")
+var vikingBodies = [body_1, body_2]
