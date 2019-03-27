@@ -15,6 +15,7 @@ var names = [
 "Ragnar" 
 ]
 
+var grid
 var type
 var controller
 var vikingName
@@ -25,21 +26,39 @@ onready var crouchSprite = preload("res://Assets/player_crouch.png")
 var playerColor = Color("00ff00")
 var opponentColor = Color("ff0000")
 
-func cartesian_to_isometric(vector):
-	return Vector2(vector.x - vector.y, (vector.x + vector.y) / 2)
-
+#Customisation---------------------------------------------------------------------------------
 func setup():
-	type = get_parent().get_parent().ENTITIES.VIKING
+	grid = get_parent().get_parent()
+	type = grid.ENTITIES.VIKING
 	$Debug_Sprite.modulate = playerColor
 	randomize()
 	vikingName = names[randi()%names.size()] + " " + names[randi()%names.size()] + "sson"
 
 func get_customisations():
-	return $Viking_Sprites.colors
+	return $Viking_Sprites.customisationValues
+#Customisation---------------------------------------------------------------------------------
 
-func _input(event):
-	#Player_Inputs
-	if Input.is_action_pressed("ui_page_down"):
-		$Debug_Sprite.texture = crouchSprite
-	elif Input.is_action_pressed("ui_page_up"):
-		$Debug_Sprite.texture = defaultSprite
+#Movement---------------------------------------------------------------------------------
+var path
+var vikingMoving = false
+var speed = 100
+
+func move(newPath):
+	path = newPath
+	print(path)
+	vikingMoving = true
+
+func _process(delta):
+	if !path:
+		vikingMoving = false
+		return
+
+	if path.size() > 0:
+		var distance: float = self.position.distance_to(path[0])
+		if distance > 10:
+			self.position = self.position.linear_interpolate(path[0], (speed * delta)/distance)
+		else:
+			if path.size() == 1:
+				grid.update_cell(path[0], self)
+			path.remove(0)
+#Movement---------------------------------------------------------------------------------

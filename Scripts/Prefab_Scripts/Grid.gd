@@ -37,6 +37,7 @@ func create_grid_array():
 			set_cell(cell.x, cell.y, -1)
 	
 	used_cells = get_used_cells()
+	Movement_Manager.calculate_next_nodes(used_cells)
 
 #Spawns a viking in a random spot on the grid
 func spawn_viking():
@@ -47,7 +48,7 @@ func spawn_viking():
 	while grid[vikingSpawn.x][vikingSpawn.y] != null:
 		vikingSpawn = used_cells[randi()%int(used_cells.size())]
 	
-	set_cell(vikingSpawn.x,vikingSpawn.y,1)
+	#set_cell(vikingSpawn.x,vikingSpawn.y,1)
 	var newViking = viking.instance()
 	newViking.position = map_to_world(vikingSpawn) + yOffset
 	$Sorter.add_child(newViking)
@@ -57,36 +58,35 @@ func spawn_viking():
 #Returns the type of entity on the tile
 func get_cell_contents(clickPos:Vector2):
 	var tilePos = world_to_map(clickPos)
-	if tilePos.x in range(gridSize.x) and tilePos.y in range(gridSize.y):
+	#if in the bounds of the grid, returns the object at the location or null
+	if tilePos.x in range(gridSize.x) and tilePos.y in range(gridSize.y): 
 		return grid[tilePos.x][tilePos.y]
 
-#Gets the world coordinate of the center of a tile clicked
-func get_tile_in_world_vector2(clickPos:Vector2):
-	return map_to_world(world_to_map(clickPos)) + yOffset
-
-
-"""	
-	
-	
-
-#Checks if the tile is empty
-func is_tile_empty(currentPos:Vector2, direction:Vector2):
-	var destination = world_to_map(currentPos) + direction
-	if destination.x in range(gridSize.x) and destination.y in range(gridSize.y):
-		if grid[destination.x][destination.y] == null:	
-			return true
+#Returns if a cell is in use
+func is_cell(pos:Vector2):
+	var tilePos = world_to_map(pos)
+	#if in the bounds of the grid, returns the object at the location or null
+	if tilePos.x in range(gridSize.x) and tilePos.y in range(gridSize.y): 
+		if tilePos in used_cells:
+			if get_cellv(tilePos) in [0,1]:
+				return true
 	return false
 
-
+#Updates 
+func update_cell(pos:Vector2, entity):
+	var tilePos = world_to_map(pos)
+	#Checks the location is valid then sets that tile to contain the entity
+	if tilePos.x in range(gridSize.x) and tilePos.y in range(gridSize.y): 
+		grid[tilePos.x][tilePos.y] = entity
 
 #Gets the world coordinate of the center of a tile clicked
 func get_tile_in_world_vector2(clickPos:Vector2):
 	return map_to_world(world_to_map(clickPos)) + yOffset
 
-func update_position(oldPos:Vector2, direction:Vector2, name):
-	var gridPos = world_to_map(oldPos)
-	grid[gridPos.x][gridPos.y] = null
-	grid[gridPos.x + direction.x][gridPos.y + direction.y] = name
-	
-	return map_to_world(oldPos + direction) + yOffset
-"""
+#Returns the grid position of the clicked tile
+func convert_to_grid_pos(clickPos:Vector2):
+	return world_to_map(clickPos)
+
+#Returns the world position of the clicked tile
+func convert_to_world_pos(gridPos:Vector2):
+	return map_to_world(gridPos) + yOffset

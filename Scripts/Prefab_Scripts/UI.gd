@@ -1,7 +1,9 @@
 extends Control
 
+signal pass_turn()
+
 func _ready():
-	get_parent().get_parent().connect("selected", self, "toggle_selection_view")
+	get_parent().get_parent().get_parent().connect("selected", self, "toggle_selection_view")
 	$Selection.hide()
 
 func toggle_selection_view(entity):
@@ -17,3 +19,6 @@ func toggle_selection_view(entity):
 
 func goto_menu():
 	Scene_Manager.load_scene("Menu")
+
+func pass_turn():
+	emit_signal("pass_turn")

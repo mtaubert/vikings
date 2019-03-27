@@ -4,7 +4,7 @@
 [ext_resource path="res://Assets/Vikings/body.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Vikings/head.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Vikings/hand.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Vikings/sword.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Vikings/axe.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Vikings/foot.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
@@ -89,27 +89,28 @@ position = Vector2( 0, 3 )
 script = ExtResource( 1 )
 
 [node name="Body" type="Sprite" parent="."]
-position = Vector2( 0, -65.3484 )
-scale = Vector2( 0.508927, 0.508927 )
+position = Vector2( 0, -64 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="Head" type="Sprite" parent="."]
-position = Vector2( 0, -117.533 )
-scale = Vector2( 0.491073, 0.5 )
+position = Vector2( 0, -117 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 
 [node name="Left_Hand" type="Sprite" parent="."]
-position = Vector2( -33.0901, -69.0926 )
+position = Vector2( -35, -65 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 4 )
 
 [node name="Right_Hand" type="Sprite" parent="."]
-position = Vector2( 32.7009, -66.0611 )
+position = Vector2( 35, -65 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 4 )
 
 [node name="Weapon" type="Sprite" parent="Right_Hand"]
-position = Vector2( 8.18867, -48.0233 )
+visible = false
+position = Vector2( 8.18867, -47.7385 )
 rotation = 0.174533
 texture = ExtResource( 5 )
 

@@ -1,9 +1,16 @@
 extends Camera2D
 
 var cameraMovement
-var cameraSpeed = 10
+var cameraSpeed = 500
+var cameraZoomSPeed = Vector2(0.1, 0.1)
 
 onready var grid = get_parent().get_child(0).get_child(0)
+
+func _input(event):
+	if Input.is_action_just_pressed("camera_scroll_out") and self.zoom < Vector2(3,3):
+		self.zoom += cameraZoomSPeed
+	elif Input.is_action_just_pressed("camera_scroll_in") and self.zoom > Vector2(0.5, 0.5):
+		self.zoom -= cameraZoomSPeed
 
 #Camera movement WIP
 func _process(delta):
@@ -20,4 +27,4 @@ func _process(delta):
 	elif mousePos.y > 980:
 		cameraMovement.y = (((mousePos.y-980)/100) * cameraSpeed)
 	
-	self.position += cameraMovement
+	self.position += cameraMovement * delta
