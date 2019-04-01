@@ -55,10 +55,11 @@ func _process(delta):
 
 	if path.size() > 0:
 		var distance: float = self.position.distance_to(path[0])
-		if distance > 10:
+		if distance > 5:
 			self.position = self.position.linear_interpolate(path[0], (speed * delta)/distance)
 		else:
 			if path.size() == 1:
+				self.position = path[0]
 				grid.update_cell(path[0], self)
 			path.remove(0)
 #Movement---------------------------------------------------------------------------------

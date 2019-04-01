@@ -17,13 +17,17 @@ _global_script_class_icons={
 
 config/name="Vikings"
 run/main_scene="res://Scenes/Menu.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://Assets/title.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
+config/icon="res://Assets/icon.png"
 
 [autoload]
 
 Asset_Loader="*res://Scripts/Global_Scripts/Asset_Loader.gd"
 Scene_Manager="*res://Scripts/Global_Scripts/Scene_Manager.gd"
 Movement_Manager="*res://Scripts/Global_Scripts/Movement_Manager.gd"
+Ship_Builder="*res://Scripts/Global_Scripts/Ship_Builder.gd"
 
 [display]
 

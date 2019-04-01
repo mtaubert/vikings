@@ -33,20 +33,19 @@ func interact_with_cell(pos, selected):
 			if !selectedEntity.vikingMoving:
 				var path
 				var pathSnappedToGrid:PoolVector2Array
-				grid.update_cell(selectedEntity.position, null)
 				
-				#path = Movement_Manager.get_path_between(grid.convert_to_grid_pos(selectedEntity.position), grid.convert_to_grid_pos(pos))
+				grid.update_cell(selectedEntity.position, null)
 				path = navigation.get_simple_path(selectedEntity.position, pos, false)
 				
 				for point in path:
-					#pathSnappedToGrid.append(grid.convert_to_world_pos(point))
 					pathSnappedToGrid.append(grid.get_tile_in_world_vector2(point))
 				
 				$World/Movement_Line.points = PoolVector2Array(pathSnappedToGrid)
 				$World/Movement_Line.show()
 				selectedEntity.move(pathSnappedToGrid)
+				selectedEntity = null
 
-#Selects the contents of the cell
+#Player right clicked a cell
 func select_grid_cell(pos, selected):
 	selectedEntity = null
 	emit_signal("selected", selected)
