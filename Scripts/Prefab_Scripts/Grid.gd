@@ -2,7 +2,8 @@ extends TileMap
 
 enum ENTITIES {
 	VIKING, 
-	COVER, 
+	COVER,
+	OBSTACLE, 
 	DOOR
 	}
 
@@ -14,7 +15,8 @@ var gridSize = Vector2(10, 10)
 var usedCells
 
 onready var viking = preload("res://Scenes/Prefabs/Viking.tscn")
-onready var obstacle = preload("res://Scenes/Prefabs/Tall_Obstacle.tscn")
+onready var obstacle = preload("res://Scenes/Prefabs/Obstacle.tscn")
+onready var cover = preload("res://Scenes/Prefabs/Cover.tscn")
 
 func _ready():
 	create_grid_array()
@@ -58,17 +60,27 @@ func spawn_viking():
 	var newViking = viking.instance()
 	newViking.position = map_to_world(vikingSpawn) + yOffset
 	$Sorter.add_child(newViking)
-	newViking.setup()
+	newViking.setup(self, ENTITIES.VIKING, $Sorter/Movement_Line)
 	grid[vikingSpawn.x][vikingSpawn.y] = newViking
 
+#Drops all obstacles into their location onto the map
 func spawn_obstacles():
 	var obstacleCells = get_used_cells_by_id(2)
+	var coverCells = get_used_cells_by_id(3)
 	
 	for cell in obstacleCells:
 		var newObstacle = obstacle.instance()
 		newObstacle.position = map_to_world(cell) + yOffset
 		$Sorter.add_child(newObstacle)
+		newObstacle.setup(self, ENTITIES.OBSTACLE)
 		grid[cell.x][cell.y] = newObstacle
+	
+	for cell in coverCells:
+		var newCover = cover.instance()
+		newCover.position = map_to_world(cell) + yOffset
+		$Sorter.add_child(newCover)
+		newCover.setup(self, ENTITIES.COVER)
+		grid[cell.x][cell.y] = newCover
 
 
 #Returns the type of entity on the tile
@@ -81,10 +93,10 @@ func get_cell_contents(clickPos:Vector2):
 #Returns if a cell is in use
 func is_cell(pos:Vector2):
 	var tilePos = world_to_map(pos)
-	#if in the bounds of the grid, returns the object at the location or null
+	#if in the bounds of the grid, returns true
 	if tilePos.x in range(gridSize.x) and tilePos.y in range(gridSize.y): 
 		if tilePos in usedCells:
-			if get_cellv(tilePos) in [0,1]:
+			if get_cellv(tilePos) in [0,1,3]:
 				return true
 	return false
 

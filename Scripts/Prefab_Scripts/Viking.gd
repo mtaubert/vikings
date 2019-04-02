@@ -15,22 +15,21 @@ var names = [
 "Ragnar" 
 ]
 
+#Grid variables
 var grid
+var movementLine 
+
+#Viking identification
 var type
 var controller
 var vikingName
 
-onready var defaultSprite = preload("res://Assets/player.png")
-onready var crouchSprite = preload("res://Assets/player_crouch.png")
-
-var playerColor = Color("00ff00")
-var opponentColor = Color("ff0000")
-
 #Customisation---------------------------------------------------------------------------------
-func setup():
-	grid = get_parent().get_parent()
-	type = grid.ENTITIES.VIKING
-	$Debug_Sprite.modulate = playerColor
+func setup(gridIn, typeIn, movementLineIn):
+	grid = gridIn
+	type = typeIn
+	movementLine = movementLineIn
+	
 	randomize()
 	vikingName = names[randi()%names.size()] + " " + names[randi()%names.size()] + "sson"
 
@@ -59,7 +58,6 @@ func _process(delta):
 			self.position = self.position.linear_interpolate(path[0], (speed * delta)/distance)
 		else:
 			if path.size() == 1:
-				self.position = path[0]
-				grid.update_cell(path[0], self)
+				movementLine.hide()
 			path.remove(0)
 #Movement---------------------------------------------------------------------------------

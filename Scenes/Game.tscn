@@ -15,8 +15,13 @@ script = ExtResource( 1 )
 
 [node name="World" type="Node2D" parent="."]
 
-[node name="Background" type="Sprite" parent="World"]
+[node name="Background" type="TextureRect" parent="World"]
+margin_left = -3287.77
+margin_top = -1781.72
+margin_right = 3599.23
+margin_bottom = 3060.28
 texture = ExtResource( 2 )
+stretch_mode = 2
 
 [node name="Navigation2D" type="Navigation2D" parent="World"]
 
@@ -44,7 +49,7 @@ texture = ExtResource( 7 )
 
 [node name="Sorter" type="YSort" parent="World/Navigation2D/Grid"]
 
-[node name="Movement_Line" type="Line2D" parent="World"]
+[node name="Movement_Line" type="Line2D" parent="World/Navigation2D/Grid/Sorter"]
 default_color = Color( 1, 0, 0, 1 )
 texture_mode = 263463264
 joint_mode = 2
