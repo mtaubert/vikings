@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Backgrounds/game_bg.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Tiles/game_tiles.tres" type="TileSet" id=2]
+[ext_resource path="res://Scripts/Prefab_Scripts/Grid.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Prefab_Scripts/Camera.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Prefabs/UI.tscn" type="PackedScene" id=5]
+
+[node name="Encounter" type="Node2D"]
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="World"]
+visible = false
+margin_left = -3066.77
+margin_top = -2564.65
+margin_right = 2984.23
+margin_bottom = 3486.35
+texture = ExtResource( 1 )
+stretch_mode = 2
+
+[node name="Navigation2D" type="Navigation2D" parent="World"]
+
+[node name="Grid" type="TileMap" parent="World/Navigation2D"]
+mode = 1
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 128, 64 )
+format = 1
+tile_data = PoolIntArray( 65535, 1, 0, 0, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 131071, 1, 0, 65538, 1, 0, 65541, 1, 0, 65542, 1, 0, 196607, 1, 0, 131072, 1, 0, 131073, 1, 0, 131079, 1, 0, 262143, 1, 0, 196614, 1, 0, 327679, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0 )
+script = ExtResource( 3 )
+
+[node name="Sorter" type="YSort" parent="World/Navigation2D/Grid"]
+
+[node name="Movement_Line" type="Line2D" parent="World/Navigation2D/Grid/Sorter"]
+points = PoolVector2Array( -936.936, -178.725 )
+width = 2.0
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+script = ExtResource( 4 )
+
+[node name="CanvasModulate" type="CanvasLayer" parent="Camera"]
+
+[node name="UI" parent="Camera/CanvasModulate" instance=ExtResource( 5 )]
+visible = false
+

@@ -18,10 +18,10 @@ func _input(event):
 	var selectedCell
 	if Input.is_action_just_pressed("game_select"): #Left click
 		selectedCell = grid.get_cell_contents(pos)
-		select_grid_cell(pos, selectedCell)		
+		#select_grid_cell(pos, selectedCell)		
 	elif Input.is_action_just_pressed("game_move"): #Right click
 		selectedCell = grid.get_cell_contents(pos)
-		interact_with_cell(pos, selectedCell)
+	#	interact_with_cell(pos, selectedCell)
 
 #Selectors updating
 func _process(delta):
@@ -33,7 +33,7 @@ func select_grid_cell(pos, selectedCell):
 	if selectedCell != null and grid.is_cell(pos):
 		selectedEntity = selectedCell
 	
-	emit_signal("selected", selectedEntity)
+	#emit_signal("selected", selectedEntity)
 
 #Interacting with different game objects
 #Player right clicked a cell

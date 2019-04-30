@@ -25,16 +25,18 @@ var controller
 var vikingName
 
 #Customisation---------------------------------------------------------------------------------
-func setup(gridIn, typeIn, movementLineIn):
+func setup(gridIn, typeIn):
 	grid = gridIn
 	type = typeIn
-	movementLine = movementLineIn
 	
 	randomize()
 	vikingName = names[randi()%names.size()] + " " + names[randi()%names.size()] + "sson"
 
 func get_customisations():
 	return $Viking_Sprites.customisationValues
+
+func set_color(color:Color):
+	$Debug_Sprite.modulate = color
 #Customisation---------------------------------------------------------------------------------
 
 #Movement---------------------------------------------------------------------------------
@@ -46,10 +48,12 @@ func move(newPath):
 	path = newPath
 	print(path)
 	vikingMoving = true
+	set_process(true)
 
 func _process(delta):
 	if !path:
 		vikingMoving = false
+		set_process(false)
 		return
 
 	if path.size() > 0:
@@ -58,6 +62,7 @@ func _process(delta):
 			self.position = self.position.linear_interpolate(path[0], (speed * delta)/distance)
 		else:
 			if path.size() == 1:
-				movementLine.hide()
+				pass
+				#movementLine.hide()
 			path.remove(0)
 #Movement---------------------------------------------------------------------------------

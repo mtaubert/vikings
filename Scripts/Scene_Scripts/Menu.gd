@@ -11,7 +11,7 @@ func quit():
 	get_tree().quit()
 
 func start_game():
-	Scene_Manager.load_scene("Game")
+	Scene_Manager.load_scene("Encounter")
 
 #Options--------------------------------------------------------------------------------------
 var optionsVisible = false
