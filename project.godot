@@ -8,15 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Character",
+"language": "GDScript",
+"path": "res://Scripts/Character_Scripts/Character.gd"
+} ]
 _global_script_class_icons={
-
+"Character": ""
 }
 
 [application]
 
 config/name="Vikings"
-run/main_scene="res://Scenes/Menu.tscn"
+run/main_scene="res://Scenes/Levels/Testing_Level.tscn"
 boot_splash/image="res://Assets/title.png"
 boot_splash/fullsize=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
@@ -24,16 +29,16 @@ config/icon="res://Assets/icon.png"
 
 [autoload]
 
-Asset_Loader="*res://Scripts/Global_Scripts/Asset_Loader.gd"
 Scene_Manager="*res://Scripts/Global_Scripts/Scene_Manager.gd"
 Game_Manager="*res://Scripts/Global_Scripts/Game_Manager.gd"
-Encounter_Manager="*res://Scripts/Global_Scripts/Encounter_Manager.gd"
+Player_Manager="*res://Scripts/Global_Scripts/Player_Manager.gd"
+Globals="*res://Scripts/Global_Scripts/Globals.gd"
+Character_Manager="*res://Scripts/Global_Scripts/Character_Manager.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
-window/size/fullscreen=true
+window/size/width=1280
+window/size/height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

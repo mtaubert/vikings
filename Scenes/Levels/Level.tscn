@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Level_Scripts/Level_Manager.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Tiles/game_tiles.tres" type="TileSet" id=2]
+[ext_resource path="res://Scripts/Prefab_Scripts/Camera.gd" type="Script" id=3]
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 1 )
+levelName = "Level"
+
+[node name="World" type="TileMap" parent="."]
+mode = 1
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 128, 64 )
+format = 1
+tile_data = PoolIntArray( 0, 1, 0 )
+
+[node name="Sorter" type="YSort" parent="World"]
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.5, 0.5 )
+limit_smoothed = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
+
+[node name="UI" type="Control" parent="Camera/CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Quit" type="Button" parent="Camera/CanvasLayer/UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -20.0
+text = "Quit"
+
+[connection signal="pressed" from="Camera/CanvasLayer/UI/Quit" to="." method="quit"]
