@@ -6,6 +6,7 @@ var currentSelectedCharacter:Vector2
 
 #Setup ================================================================================================
 func _ready():
+	randomize()
 	Game_Manager.connect("pass_turn", self, "turn_passed")
 
 func setup_ai(entities):
@@ -18,7 +19,8 @@ func setup_ai(entities):
 				aiCharacters[pos] = entity
 				entity.connect("done_moving", self, "next_character_action")
 	
-	currentSelectedCharacter = aiCharacters.keys()[0] #Selects the first ai character
+	if aiCharacters.size() > 0:
+		currentSelectedCharacter = aiCharacters.keys().front() #Selects the first ai character
 	
 	print("The heroes:")
 	for pos in playerCharacters:
@@ -30,18 +32,22 @@ func setup_ai(entities):
 #Setup ================================================================================================
 
 #AI actions =========================================================================================== 
+signal ai_character_move(character, location)
+
 func turn_passed(isPlayerTurn):
 	if not isPlayerTurn:
 		move_current_selected_character()
 
 func move_current_selected_character():
 	print(aiCharacters[currentSelectedCharacter].characterName + " is moving")
-	next_character_action()
+	var targets = Game_Manager.get_current_level_empty_cells()
+	var target = targets[randi()%targets.size()]
+	emit_signal("ai_character_move", aiCharacters[currentSelectedCharacter], target)
 
 func next_character_action():
 	if aiCharacters.keys().back() == currentSelectedCharacter:
 		Game_Manager.pass_turn()
-		currentSelectedCharacter = aiCharacters.keys()[0] #Selects the first ai character
+		currentSelectedCharacter = aiCharacters.keys().front() #Selects the first ai character
 	else:
 		currentSelectedCharacter = aiCharacters.keys()[aiCharacters.keys().find(currentSelectedCharacter)+1] #Grabs the next key from the aiCharacters dict
 		move_current_selected_character()

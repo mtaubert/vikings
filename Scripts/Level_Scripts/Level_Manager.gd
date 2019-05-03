@@ -13,6 +13,7 @@ var selectedEntity = null
 func _ready():
 	randomize()
 	tileOffset = Vector2(0,$World.cell_size.y/2)
+	AI_Manager.connect("ai_character_move", self, "move_character_to")
 	
 	setup_level() #Adds some smaller entities to the grid
 	$World/Selector.set_valid_cells(get_valid_cells()) #Sets up the selector to know which cells are valid
@@ -127,9 +128,15 @@ func _input(event):
 func select_entity(entity):
 	selectedEntity = entity
 	if selectedEntity != null:
-		print(entity.characterName)
+		$World/Line2D.show()
+		var worldPosPath:PoolVector2Array = []
+		for point in Game_Manager.astar_get_furthest_reachable_points($World.world_to_map(selectedEntity.position), 4):
+			worldPosPath.append($World.map_to_world(point) + tileOffset)
+		print(worldPosPath)
+		$World/Line2D.points = worldPosPath
 		$World/Selector.show_selector()
 	else:
+		$World/Line2D.hide()
 		$World/Selector.hide_selector()
 #Selecting Entities ==================================================================================
 

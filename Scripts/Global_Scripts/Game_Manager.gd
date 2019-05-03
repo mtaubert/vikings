@@ -13,6 +13,16 @@ func new_level_entities(entities):
 func setup_level_ai():
 	AI_Manager.setup_ai(currentLevelEntities)
 
+#Returns an array with the (x,y) coordinates of empty cells
+func get_current_level_empty_cells():
+	var empty_cells:PoolVector2Array = []
+	
+	for pos in points:
+		if !currentLevelEntities.has(pos):
+			empty_cells.append(pos)
+	
+	return empty_cells
+
 #Game and turn logic----------------------------------------------------------------------------------------------------------------------------
 var isPlayerTurn:bool = true
 
@@ -70,26 +80,23 @@ func astar_get_path(start:Vector2, end:Vector2):
 #Gets the points at the max distance from the given location
 func astar_get_furthest_reachable_points(location, maxDistance):
 	var locationID = points.find(location)
-	var furthestReachablePoints:PoolVector2Array = []
+	var reachAblePoints:PoolVector2Array = []
 	
-	for x in range(1, maxDistance+1):
-		for y in range(1, maxDistance+1):
-			if points.has(location + Vector2(x,y)):
-				var distance = astar_get_distance(location, location + Vector2(x,y))
-				if distance == maxDistance:
-					furthestReachablePoints.append(location + Vector2(x,y))
-			if points.has(location - Vector2(x,y)):
-				var distance = astar_get_distance(location, location - Vector2(x,y))
-				if distance == maxDistance:
-					furthestReachablePoints.append(location - Vector2(x,y))
+	var searchAreaTopLeft = location - Vector2(maxDistance,maxDistance)
 	
-	return furthestReachablePoints
+	for point in points:
+		if point.x >= searchAreaTopLeft.x and point.x < searchAreaTopLeft.x+maxDistance and point.y >= searchAreaTopLeft.y and point.y < searchAreaTopLeft.y+maxDistance:
+			if astar_get_distance(location, point) <= maxDistance:
+				reachAblePoints.append(point)
+	
+	return reachAblePoints
 
 #Gets the distance between two vector2s
 func astar_get_distance(a:Vector2,b:Vector2):
 	var pointA = points.find(a)
 	var pointB = points.find(b)
 	var distance = aStar.get_point_path(pointA, pointB).size()-1
+	print(distance)
 	return distance
 
 func astar_add_point(newPoint:Vector2):

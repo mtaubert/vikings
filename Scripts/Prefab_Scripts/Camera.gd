@@ -24,7 +24,7 @@ func _input(event):
 		self.zoom -= cameraZoomSPeed
 
 #Camera movement WIP
-func _process(delta):
+func _physics_process(delta):
 	cameraMovement = Vector2(0,0)
 	var mousePos = viewport.get_mouse_position()
 	
