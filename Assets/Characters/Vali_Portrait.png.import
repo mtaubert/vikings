@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Thorbrand_Portrait.png-71c08be4ac3be83f64f7d6109c179add.stex"
+path="res://.import/Vali_Portrait.png-9ed0d78ad086e97ccc08988934faedb2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Vikings/Thorbrand_Portrait.png"
-dest_files=[ "res://.import/Thorbrand_Portrait.png-71c08be4ac3be83f64f7d6109c179add.stex" ]
+source_file="res://Assets/Characters/Vali_Portrait.png"
+dest_files=[ "res://.import/Vali_Portrait.png-9ed0d78ad086e97ccc08988934faedb2.stex" ]
 
 [params]
 

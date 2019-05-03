@@ -7,19 +7,29 @@ var tileOffset:Vector2 #Offset from the center of the tile to the tile origin
 #Player
 onready var character = load("res://Scenes/Characters/Character.tscn")
 
-var levelEntities = {}
 var selectedEntity = null
-
 
 #Setup ===============================================================================================
 func _ready():
 	randomize()
 	tileOffset = Vector2(0,$World.cell_size.y/2)
-	spawn_walls()
-	get_level_entities()
-	spawn_players()
-	update_game_manager_with_level_data()
+	
+	setup_level() #Adds some smaller entities to the grid
+	$World/Selector.set_valid_cells(get_valid_cells()) #Sets up the selector to know which cells are valid
+	
+	#spawn_walls()
+	update_game_manager_with_level_data() #Locks any existing entities to the grid and sets up currentLevelEntities in the manager
+	spawn_players() #Spawn the player's crew
+	
+	start_game()
+	
+	print_level_details()
 
+#Spawns a couple little entities to litter the scene to add some flair
+func setup_level():
+	pass
+
+#Spawns wall prefabs on every blocked tile
 onready var wall = load("res://Scenes/Prefabs/Wall.tscn")
 func spawn_walls():
 	for pos in $World.get_used_cells_by_id(0):
@@ -27,78 +37,121 @@ func spawn_walls():
 		$World/Sorter.add_child(newWall)
 		newWall.position = $World.map_to_world(pos) + tileOffset
 
-#Loads all entities and locks them to the world grid if they aren't already
-func get_level_entities():
+#Sends the level data to the game manager
+func update_game_manager_with_level_data():
+	#Gets data on each cell being used and sends in to the manager to set up the level's astar node
+	var cellData = {}
+	for cell in $World.get_used_cells():
+		cellData[cell] = $World.get_cellv(cell)
+	Game_Manager.astar_setup(cellData)
+	
+	#Sets up all entities in the sorter and then stores them and their location in the manager
+	var entities = {}
 	for child in $World/Sorter.get_children():
-		var childLoc = $World.world_to_map(child.position)
+		var childLoc = $World.world_to_map(child.position) #grabs the position in tilemap coordinates
+		child.position = $World.map_to_world(childLoc) + tileOffset #snaps the entity to the grid in case it's not already
+		entities[childLoc] = child 
+		
+		#Any furthur setup for the entity as needed by type
 		match child.type:
 			Globals.ENTITY_TYPE.CHARACTER:
 				child.connect("selected", self, "select_entity")
-				levelEntities[childLoc] = child
-				child.position = $World.map_to_world(childLoc) + tileOffset
-			Globals.ENTITY_TYPE.WALL:
-				levelEntities[childLoc] = child
+	Game_Manager.new_level_entities(entities)
 
 #Player is spawned and set to the player spawnpoint
 func spawn_players():
-	var validSpawns = $World.get_used_cells_by_id(1)
 	
-	for key in levelEntities.keys(): #Removes the already placed entities from the list of valid spawns
+	var spawnSquareTopLeft = playerSpawn - Vector2(2,2)
+	
+	var validSpawns = []
+	for cell in $World.get_used_cells():
+		if !$World.get_used_cells_by_id(0).has(cell): 
+			#Grabs all cells in a 5x5 area around the spawn
+			if cell.x >= spawnSquareTopLeft.x and cell.x < spawnSquareTopLeft.x+5 and cell.y >= spawnSquareTopLeft.y and cell.y < spawnSquareTopLeft.y+5:
+				validSpawns.append(cell)
+	
+	for key in Game_Manager.currentLevelEntities.keys(): #Removes the already placed entities from the list of valid spawns
 		validSpawns.erase(key)
 	
-	for i in range(Player_Manager.characters.size()): #Gets all saved characters from the player's party
+	for i in range(Player_Manager.party.size()): #Gets all saved characters from the player's party
 		var newCharacter:Character = character.instance()
 		var newCharacterSpawn = validSpawns[randi()%validSpawns.size()]
 		
 		$World/Sorter.add_child(newCharacter) #Adds the character to the sorter
 		newCharacter.position = $World.map_to_world(newCharacterSpawn) + tileOffset #Snaps the character to the grid
-		newCharacter.setup(Player_Manager.characters[i])
-		
-		levelEntities[playerSpawn] = newCharacter #Adds the character to the level entries dictionary
+		newCharacter.setup(Player_Manager.party[i], true) #Sets up the character as the correct party member
 		newCharacter.connect("selected", self, "select_entity") #Connects the signal for selecting the player
+		
+		Game_Manager.currentLevelEntities[newCharacterSpawn] = newCharacter #Adds the character to the level entries dictionary
 		validSpawns.erase(newCharacterSpawn) #Removes the spawn location from the list of valid spawns
-
-#Sends the level data to the game manager
-func update_game_manager_with_level_data():
-	var cellData = {}
-	for cell in $World.get_used_cells():
-		cellData[cell] = $World.get_cellv(cell)
-	Game_Manager.astar_setup(cellData)
 
 #Debug use
 func print_level_details():
-	print(levelName)
-	print($World.get_used_rect())
+	print(Game_Manager.currentLevelEntities)
 
+func start_game():
+	Game_Manager.setup_level_ai()
+	$Camera/CanvasLayer/UI.game_start()
+
+#Returns a list of each valid cell
+func get_valid_cells():
+	var validCells = []
+	for cell in $World.get_used_cells():
+		if !$World.get_used_cells_by_id(0).has(cell):
+			validCells.append(cell)
+	return validCells
+
+#Sets camera limits, broken atm
 func set_camera_limits():
 	var usedRect:Rect2 = $World.get_used_rect()
 	$Camera.set_limits($World.map_to_world(usedRect.position - Vector2(2,2)), $World.map_to_world(usedRect.end + Vector2(2,2)))
 #Setup ===============================================================================================
 
+#Selecting Entities ==================================================================================
 #User input
 func _input(event):
 	if event.is_action_pressed("game_move"): #Right click
-		if selectedEntity != null:
-			move_character_to($World.world_to_map(get_global_mouse_position()))
-
-#Entity selection and movement =======================================================================
+		if selectedEntity != null and Game_Manager.isPlayerTurn:
+			match selectedEntity.type:
+				Globals.ENTITY_TYPE.CHARACTER:
+					if selectedEntity.isPlayerOwned:
+						move_character_to(selectedEntity, $World.world_to_map(get_global_mouse_position()))
+	elif event.is_action_pressed("game_select"):
+		var selectedCell = $World.world_to_map(get_global_mouse_position())
+		if Game_Manager.currentLevelEntities.has(selectedCell):
+			select_entity(Game_Manager.currentLevelEntities[selectedCell])
+		else:
+			select_entity(null)
 
 #update selected entity
 func select_entity(entity):
-	print(entity)
 	selectedEntity = entity
+	if selectedEntity != null:
+		print(entity.characterName)
+		$World/Selector.show_selector()
+	else:
+		$World/Selector.hide_selector()
+#Selecting Entities ==================================================================================
 
+#Entity selection and movement =======================================================================
 #Moves the selected entity to the selected location
-func move_character_to(location:Vector2):
+func move_character_to(character:Character,location:Vector2):
 	if $World.get_used_cells().has(location) and $World.get_cellv(location) != 0:
-		var path:PoolVector2Array = Game_Manager.astar_get_path($World.world_to_map(selectedEntity.position), location)
-		path.remove(0)
+		var characterLocation = $World.world_to_map(character.position)
+		var path:PoolVector2Array = Game_Manager.astar_get_path(characterLocation, location)
+		path.remove(0) #Uncessesary first point that is just the character's current location
+		
 		var worldPosPath:PoolVector2Array = []
 		for point in path:
 			worldPosPath.append($World.map_to_world(point) + tileOffset)
-		print(path)
-		selectedEntity.move_character(worldPosPath)
+
+		character.move_character(worldPosPath)
+		
+		#Adds the character to the new location they are at
+		Game_Manager.currentLevelEntities.erase(characterLocation)
+		Game_Manager.currentLevelEntities[location] = selectedEntity
 #Entity selection and movement =======================================================================
 
-func quit():
-	get_tree().quit()
+
+func pass_turn():
+	pass # Replace with function body.

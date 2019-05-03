@@ -1,18 +1,23 @@
 extends Node
 
 enum ENTITY_TYPE {
-	CHARACTER,
+	CHARACTER, #A
 	WALL,
 	ENTITY
+}
+
+enum WORLD_TYPE {
+	BLOCKED, #Unused
+	DEBUG, 
+	DESERT
 }
 
 var globals = {
 	"camera": null
 }
 
-func set(name, entity):
-	print("Set " + name)
-	globals[name] = entity
+func set(entityName, entity):
+	globals[entityName] = entity
 
-func get(name):
-	return globals[name]
+func get(entityName):
+	return globals[entityName]

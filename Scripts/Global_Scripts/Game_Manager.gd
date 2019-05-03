@@ -1,12 +1,29 @@
 extends Node
 
-var currentLevel = {}
+#Signals
+signal pass_turn(isPlayerTurn) #Emitted when the turn is passed
+
+var currentLevelEntities = {}
 
 #Current Level logic----------------------------------------------------------------------------------------------------------------------------
+func new_level_entities(entities):
+	currentLevelEntities.clear()
+	currentLevelEntities = entities
 
-#Current Level logic----------------------------------------------------------------------------------------------------------------------------
+func setup_level_ai():
+	AI_Manager.setup_ai(currentLevelEntities)
+
+#Game and turn logic----------------------------------------------------------------------------------------------------------------------------
+var isPlayerTurn:bool = true
+
+func pass_turn():
+	isPlayerTurn = !isPlayerTurn
+	emit_signal("pass_turn", isPlayerTurn)
+
+#Game and turn logic----------------------------------------------------------------------------------------------------------------------------
 
 #A Star Logic-----------------------------------------------------------------------------------------------------------------------------------
+var currentLevel = {}
 onready var aStar = AStar.new()
 var obstaclePoints = []
 var points = []
@@ -23,9 +40,9 @@ func astar_setup(levelCells):
 	
 	for pos in currentLevel:
 		match(currentLevel[pos]):
-			0:
+			0: #Naturally blocked tile
 				obstaclePoints.append(pos)
-			_:
+			_: #Any other tile type
 				aStar.add_point(points.size(), Vector3(pos.x,pos.y,0.0))
 				points.append(pos)
 	

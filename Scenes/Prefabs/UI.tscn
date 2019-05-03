@@ -1,0 +1,187 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Prefab_Scripts/UI.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Characters/Arnor_Portrait.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "game_start"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Game_Details/Player_Characters:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1656, -300 ), Vector2( -508, -300 ), Vector2( -508, -300 ), Vector2( 640, -300 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Game_Details/AI_Characters:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 640, 0 ), Vector2( -508, 0 ), Vector2( -508, 0 ), Vector2( -1656, 0 ) ]
+}
+
+[node name="UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 1 )
+
+[node name="Quit" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -180.0
+margin_top = -40.0
+text = "Quit"
+
+[node name="Pass" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -180.0
+margin_top = -120.0
+margin_bottom = -50.0
+text = "Pass Turn"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/game_start = SubResource( 1 )
+
+[node name="Game_Details" type="Node2D" parent="."]
+position = Vector2( 640, 360 )
+
+[node name="Player_Characters" type="HBoxContainer" parent="Game_Details"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 640.0
+margin_top = -300.0
+margin_right = 1656.0
+margin_bottom = -100.0
+rect_min_size = Vector2( 200, 200 )
+
+[node name="Character" type="TextureRect" parent="Game_Details/Player_Characters"]
+margin_right = 200.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 158, 300 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character2" type="TextureRect" parent="Game_Details/Player_Characters"]
+margin_left = 204.0
+margin_right = 404.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 125.5, 150 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character3" type="TextureRect" parent="Game_Details/Player_Characters"]
+margin_left = 408.0
+margin_right = 608.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character4" type="TextureRect" parent="Game_Details/Player_Characters"]
+margin_left = 612.0
+margin_right = 812.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character5" type="TextureRect" parent="Game_Details/Player_Characters"]
+margin_left = 816.0
+margin_right = 1016.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="AI_Characters" type="HBoxContainer" parent="Game_Details"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -1656.0
+margin_right = -639.999
+margin_bottom = 200.0
+
+[node name="Character" type="TextureRect" parent="Game_Details/AI_Characters"]
+margin_right = 200.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 158, 300 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character2" type="TextureRect" parent="Game_Details/AI_Characters"]
+margin_left = 204.0
+margin_right = 404.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 125.5, 150 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character3" type="TextureRect" parent="Game_Details/AI_Characters"]
+margin_left = 408.0
+margin_right = 608.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character4" type="TextureRect" parent="Game_Details/AI_Characters"]
+margin_left = 612.0
+margin_right = 812.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[node name="Character5" type="TextureRect" parent="Game_Details/AI_Characters"]
+margin_left = 816.0
+margin_right = 1016.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource( 2 )
+
+[connection signal="pressed" from="Quit" to="." method="quit"]
+[connection signal="pressed" from="Pass" to="." method="pass_turn"]

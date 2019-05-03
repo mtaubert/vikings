@@ -1,3 +1,3 @@
 extends Node
 
-var characters = ["Ragna", "Vali", "Thorbrand"]
+var party = ["Ragna", "Vali", "Thorbrand", "Arnor"]

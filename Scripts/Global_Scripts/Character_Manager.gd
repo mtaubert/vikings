@@ -17,4 +17,4 @@ func load_character_data():
 	
 	#Loads portraits
 	for key in characterData:
-		characterData[key]["Portrait"] = load("res://Assets/Vikings/" + key + "_Portrait.png")
+		characterData[key]["Portrait"] = load("res://Assets/Characters/" + key + "_Portrait.png")

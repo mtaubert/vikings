@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/Character_Scripts/Character.gd" type="Script" id=1]
 [ext_resource path="res://Assets/player.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Vikings/Arnor_Portrait.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Characters/Arnor_Portrait.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Fonts/character_info_font.tres" type="DynamicFont" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]

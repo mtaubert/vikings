@@ -2,20 +2,41 @@
 	"Ragna": {
 		"Color": "FF0000",
 		"Life": 21,
-		"Damage": 7
+		"Stats": {
+			"Strength": 7,
+			"Speed": 4
+		}
 	},
 	"Arnor": {
 		"Color": "00FF00",
 		"Life": 20,
-		"Damage": 8},
+		"Stats": {
+			"Strength": 8,
+			"Speed": 4
+		}
+	},
 	"Thorbrand": {
 		"Color": "0000FF",
 		"Life": 22,
-		"Damage": 6
+		"Stats": {
+			"Strength": 6,
+			"Speed": 4
+		}
 	},
 	"Vali": {
 		"Color": "FF00FF",
 		"Life": 18,
-		"Damage": 10
+		"Stats": {
+			"Strength": 10,
+			"Speed": 4
+		}
+	},
+	"Surtr Demon": {
+		"Color": "303030",
+		"Life": 25,
+		"Stats": {
+			"Strength": 5,
+			"Speed": 4
+		}
 	}
 }

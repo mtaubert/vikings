@@ -1,8 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Assets/Tiles/Base.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Tiles/base_test.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Tiles/grate.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Tiles/blocked_tile.png" type="Texture" id=1]
+[ext_resource path="res://OLD/base_test.png" type="Texture" id=2]
+[ext_resource path="res://OLD/grate.png" type="Texture" id=3]
+
+
+
 
 [node name="Game_Tiles" type="Node2D"]
 

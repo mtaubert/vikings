@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Level_Scripts/Level_Manager.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Tiles/game_tiles.tres" type="TileSet" id=2]
-[ext_resource path="res://Scripts/Prefab_Scripts/Camera.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Prefabs/Selector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/Prefab_Scripts/Camera.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Prefabs/UI.tscn" type="PackedScene" id=5]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -13,7 +15,9 @@ mode = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 64 )
 format = 1
-tile_data = PoolIntArray( 0, 1, 0 )
+tile_data = PoolIntArray( -1, 1, 0, -65536, 1, 0, -65535, 1, 0, 65535, 1, 0, 0, 1, 2, 1, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0 )
+
+[node name="Selector" parent="World" instance=ExtResource( 3 )]
 
 [node name="Sorter" type="YSort" parent="World"]
 
@@ -23,21 +27,9 @@ zoom = Vector2( 0.5, 0.5 )
 limit_smoothed = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
 
-[node name="UI" type="Control" parent="Camera/CanvasLayer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="UI" parent="Camera/CanvasLayer" instance=ExtResource( 5 )]
 
-[node name="Quit" type="Button" parent="Camera/CanvasLayer/UI"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -20.0
-text = "Quit"
-
-[connection signal="pressed" from="Camera/CanvasLayer/UI/Quit" to="." method="quit"]

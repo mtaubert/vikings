@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/selector_movement.png-16c40f65509aa11a8dbd61c2b6eafb41.stex"
+path="res://.import/grate.png-28bf9d50a65af59a07750af6c143a29e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/selector_movement.png"
-dest_files=[ "res://.import/selector_movement.png-16c40f65509aa11a8dbd61c2b6eafb41.stex" ]
+source_file="res://OLD/grate.png"
+dest_files=[ "res://.import/grate.png-28bf9d50a65af59a07750af6c143a29e.stex" ]
 
 [params]
 

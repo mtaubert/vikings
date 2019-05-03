@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Vali_Portrait.png-0d24de7768ee296edc8a5ae80c2da50f.stex"
+path="res://.import/snow.png-811f5ee364d530288e1a81b5ece113be.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Vikings/Vali_Portrait.png"
-dest_files=[ "res://.import/Vali_Portrait.png-0d24de7768ee296edc8a5ae80c2da50f.stex" ]
+source_file="res://OLD/snow.png"
+dest_files=[ "res://.import/snow.png-811f5ee364d530288e1a81b5ece113be.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -30,5 +30,5 @@ process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

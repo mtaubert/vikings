@@ -2,12 +2,15 @@ extends Node2D
 class_name Character
 const type = Globals.ENTITY_TYPE.CHARACTER
 
+signal done_moving()
+
 enum CHARACTER_STATE {
 	MOVING,
 	IDLE
 }
 
-export(String, "Ragna", "Thorbrand", "Arnor", "Vali") var characterName
+export(String, "Ragna", "Thorbrand", "Arnor", "Vali", "Surtr Demon") var characterName
+export(bool) var isPlayerOwned = false
 var currentState = CHARACTER_STATE.IDLE
 var currentCamera
 
@@ -15,10 +18,11 @@ func _ready():
 	hide_character_info()
 	currentCamera = Globals.get("camera")
 	if characterName != "":
-		setup(characterName)
+		setup(characterName, isPlayerOwned)
 
-func setup(nameIn):
+func setup(nameIn, playerOwned):
 	characterName = nameIn
+	isPlayerOwned = playerOwned
 	$Character_Sprite.modulate = Color(Character_Manager.characterData[characterName]["Color"])
 	$Character_Info/Character_Stats/Name.text = characterName
 	$Character_Info/Character_Stats/Heatlh.max_value = Character_Manager.characterData[characterName]["Life"]
@@ -43,6 +47,7 @@ func _on_Movement_Tween_tween_completed(object, key):
 	if movementPoints.size() > 0:
 		move_to_next_point()
 	else:
+		emit_signal("done_moving")
 		currentState = CHARACTER_STATE.IDLE
 #Movement ====================================================================================
 

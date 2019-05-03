@@ -6,4 +6,8 @@
 [node name="Level" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 levelName = ""
+worldType = 2
+
+[node name="World" parent="." index="0"]
+tile_data = PoolIntArray(  )
 
