@@ -7,8 +7,6 @@ var tileOffset:Vector2 #Offset from the center of the tile to the tile origin
 #Player
 onready var character = load("res://Scenes/Characters/Character.tscn")
 
-var selectedEntity = null
-
 #Setup ===============================================================================================
 func _ready():
 	randomize()
@@ -19,7 +17,7 @@ func _ready():
 	$World/Selector.set_valid_cells(get_valid_cells()) #Sets up the selector to know which cells are valid
 	
 	#spawn_walls()
-	update_game_manager_with_level_data() #Locks any existing entities to the grid and sets up currentLevelEntities in the manager
+	update_managers_with_level_data() #Locks any existing entities to the grid and sets up currentLevelEntities in the manager
 	spawn_players() #Spawn the player's crew
 	
 	start_game()
@@ -39,14 +37,8 @@ func spawn_walls():
 		newWall.position = $World.map_to_world(pos) + tileOffset
 
 #Sends the level data to the game manager
-func update_game_manager_with_level_data():
-	#Gets data on each cell being used and sends in to the manager to set up the level's astar node
-	var cellData = {}
-	for cell in $World.get_used_cells():
-		cellData[cell] = $World.get_cellv(cell)
-	Game_Manager.astar_setup(cellData)
-	
-	#Sets up all entities in the sorter and then stores them and their location in the manager
+func update_managers_with_level_data():
+	#Sets up all entities in the sorter and then stores them and their location in the game manager manager
 	var entities = {}
 	for child in $World/Sorter.get_children():
 		var childLoc = $World.world_to_map(child.position) #grabs the position in tilemap coordinates
@@ -58,6 +50,12 @@ func update_game_manager_with_level_data():
 			Globals.ENTITY_TYPE.CHARACTER:
 				child.connect("selected", self, "select_entity")
 	Game_Manager.new_level_entities(entities)
+	
+	#Gets data on each cell being used and sends in to the movement manager to set up the level's astar node
+	var cellData = {}
+	for cell in $World.get_used_cells():
+		cellData[cell] = $World.get_cellv(cell)
+	Movement_Manager.setup(cellData)
 
 #Player is spawned and set to the player spawnpoint
 func spawn_players():
@@ -109,6 +107,7 @@ func set_camera_limits():
 #Setup ===============================================================================================
 
 #Selecting Entities ==================================================================================
+var selectedEntity = null
 #User input
 func _input(event):
 	if event.is_action_pressed("game_move"): #Right click
@@ -128,16 +127,23 @@ func _input(event):
 func select_entity(entity):
 	selectedEntity = entity
 	if selectedEntity != null:
-		$World/Line2D.show()
-		var worldPosPath:PoolVector2Array = []
-		for point in Game_Manager.astar_get_furthest_reachable_points($World.world_to_map(selectedEntity.position), 4):
-			worldPosPath.append($World.map_to_world(point) + tileOffset)
-		print(worldPosPath)
-		$World/Line2D.points = worldPosPath
 		$World/Selector.show_selector()
+		#get_reachable_cells()
 	else:
-		$World/Line2D.hide()
+		$World/Movement_Line.hide()
 		$World/Selector.hide_selector()
+
+#Highlights the cells that can be reached by the character
+func get_reachable_cells():
+	$World/Movement_Line.show()
+	var reachableCells = Movement_Manager.get_furthest_reachable_points($World.world_to_map(selectedEntity.position), 2)
+	var worldPosPath = []
+	for point in reachableCells:
+		if !reachableCells.has(point + Vector2(1,0)) or !reachableCells.has(point + Vector2(-1,0)) or !reachableCells.has(point + Vector2(0,1)) or !reachableCells.has(point + Vector2(0,-1)):
+			worldPosPath.append($World.map_to_world(point) + tileOffset)
+	
+	print(worldPosPath)
+	$World/Movement_Line.points = worldPosPath
 #Selecting Entities ==================================================================================
 
 #Entity selection and movement =======================================================================
@@ -145,7 +151,7 @@ func select_entity(entity):
 func move_character_to(character:Character,location:Vector2):
 	if $World.get_used_cells().has(location) and $World.get_cellv(location) != 0:
 		var characterLocation = $World.world_to_map(character.position)
-		var path:PoolVector2Array = Game_Manager.astar_get_path(characterLocation, location)
+		var path:PoolVector2Array = Movement_Manager.get_shortest_path(characterLocation, location)
 		path.remove(0) #Uncessesary first point that is just the character's current location
 		
 		var worldPosPath:PoolVector2Array = []

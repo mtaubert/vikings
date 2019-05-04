@@ -14,9 +14,13 @@ export(bool) var isPlayerOwned = false
 var currentState = CHARACTER_STATE.IDLE
 var currentCamera
 
+var characterStats = {
+	"AP": 2,
+	"Movement_Max": 4
+}
+
 func _ready():
 	hide_character_info()
-	currentCamera = Globals.get("camera")
 	if characterName != "":
 		setup(characterName, isPlayerOwned)
 
