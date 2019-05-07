@@ -38,4 +38,4 @@ func _physics_process(delta):
 	elif mousePos.y > 570:
 		cameraMovement.y = (1 * cameraSpeed)
 	
-	self.position += cameraMovement * delta
+	#self.position += cameraMovement * delta

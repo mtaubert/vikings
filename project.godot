@@ -36,6 +36,7 @@ Globals="*res://Scripts/Global_Scripts/Globals.gd"
 Character_Manager="*res://Scripts/Global_Scripts/Character_Manager.gd"
 AI_Manager="*res://Scripts/Global_Scripts/AI_Manager.gd"
 Movement_Manager="*res://Scripts/Global_Scripts/Movement_Manager.gd"
+Combat_Manager="*res://Scripts/Global_Scripts/Combat_Manager.gd"
 
 [display]
 

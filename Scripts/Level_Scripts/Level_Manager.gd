@@ -126,8 +126,12 @@ func _input(event):
 #update selected entity
 func select_entity(entity):
 	selectedEntity = entity
+	#$Camera/CanvasLayer/UI.unselect_character()
 	if selectedEntity != null:
-		$World/Selector.show_selector()
+		match selectedEntity.type:
+				Globals.ENTITY_TYPE.CHARACTER:
+					$World/Selector.show_selector()
+					$Camera/CanvasLayer/UI.select_character(selectedEntity)
 		#get_reachable_cells()
 	else:
 		$World/Movement_Line.hide()
@@ -155,8 +159,13 @@ func move_character_to(character:Character,location:Vector2):
 		path.remove(0) #Uncessesary first point that is just the character's current location
 		
 		var worldPosPath:PoolVector2Array = []
+		var distance = 0
 		for point in path:
-			worldPosPath.append($World.map_to_world(point) + tileOffset)
+			if distance < character.characterStats["Movement_Max"]:
+				worldPosPath.append($World.map_to_world(point) + tileOffset)
+				distance += 1
+			else:
+				break
 
 		character.move_character(worldPosPath)
 		

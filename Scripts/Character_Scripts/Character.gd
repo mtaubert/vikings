@@ -15,8 +15,11 @@ var currentState = CHARACTER_STATE.IDLE
 var currentCamera
 
 var characterStats = {
+	"Max_Ap": 2,
 	"AP": 2,
-	"Movement_Max": 4
+	"Movement_Max": 4,
+	"Max_Life": 0,
+	"Life": 0
 }
 
 func _ready():
@@ -27,10 +30,12 @@ func _ready():
 func setup(nameIn, playerOwned):
 	characterName = nameIn
 	isPlayerOwned = playerOwned
+	characterStats["Max_Life"] = Character_Manager.characterData[characterName]["Life"]
+	characterStats["Life"] = Character_Manager.characterData[characterName]["Life"]
 	$Character_Sprite.modulate = Color(Character_Manager.characterData[characterName]["Color"])
 	$Character_Info/Character_Stats/Name.text = characterName
-	$Character_Info/Character_Stats/Heatlh.max_value = Character_Manager.characterData[characterName]["Life"]
-	$Character_Info/Character_Stats/Heatlh.value = Character_Manager.characterData[characterName]["Life"]
+	$Character_Info/Character_Stats/Heatlh.max_value = characterStats["Life"]
+	$Character_Info/Character_Stats/Heatlh.value = characterStats["Life"]
 	$Character_Info/Icon.texture = Character_Manager.characterData[characterName]["Portrait"]
 
 #Movement ====================================================================================
@@ -78,4 +83,17 @@ func _on_Character_Kinematic_Body_input_event(viewport, event, shape_idx):
 		emit_signal("selected", self)
 #Selection ===================================================================================
 
+#Damage ======================================================================================
+func take_damage(damage):
+	characterStats["Life"] -= damage
+	$Character_Info/Character_Stats/Heatlh.value = characterStats["Life"]
+	if characterStats["Life"] <= 0:
+		pass 
+		#DIE
 
+func heal(heal):
+	characterStats["Life"] += heal
+	if characterStats["Life"] > characterStats["Max_Life"]:
+		characterStats["Life"] = characterStats["Max_Life"]
+	$Character_Info/Character_Stats/Heatlh.value = characterStats["Life"]
+#Damage ======================================================================================

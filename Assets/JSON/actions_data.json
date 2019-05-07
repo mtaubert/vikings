@@ -1,0 +1,26 @@
+{
+	"punch": {
+		"damage": 5,
+		"range": 1,
+		"area": ["(0,0)"],
+		"effects": []
+	},
+	"slash": {
+		"damage": 10,
+		"range": 2,
+		"area": ["(0,0)"],
+		"effects": ["bleeding"]
+	},
+	"smash": {
+		"damage": 8,
+		"range": 2,
+		"area": ["(0,0)"],
+		"effects": ["stunned"]
+	},
+	"fireball": {
+		"damage": 3,
+		"range": 6,
+		"area": ["(0,0)", "(1,0)", "(0,1)", "(-1,0)", "(0,-1)"],
+		"effects": ["burning"]
+	}
+}

@@ -31,6 +31,7 @@ func connect_points():
 	for point in points:
 		add_point(point)
 
+#Returns an array of the shortest path
 func get_shortest_path(start:Vector2, end:Vector2):
 	var path = aStar.get_point_path(points.find(start), points.find(end))
 	var pathAsCells:PoolVector2Array
@@ -74,7 +75,7 @@ func add_point(newPoint:Vector2):
 func remove_point(removePoint:Vector2):
 	var pointID = points.find(removePoint)
 	#Grab all adjacent points, TODO:add checks for different tile types and adjust accordingly
-	var adjacentPoints = [Vector2(point.x-1, point.y), Vector2(point.x+1, point.y), Vector2(point.x, point.y-1), Vector2(point.x, point.y+1)]
+	var adjacentPoints = [Vector2(removePoint.x-1, removePoint.y), Vector2(removePoint.x+1, removePoint.y), Vector2(removePoint.x, removePoint.y-1), Vector2(removePoint.x, removePoint.y+1)]
 	for adjacentPoint in adjacentPoints:
 		if points.has(adjacentPoint): #Checks if the point
 			if aStar.are_points_connected(pointID, points.find(adjacentPoint)):
