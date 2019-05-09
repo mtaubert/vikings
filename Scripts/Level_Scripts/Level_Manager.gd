@@ -153,7 +153,7 @@ func get_reachable_cells():
 #Entity selection and movement =======================================================================
 #Moves the selected entity to the selected location
 func move_character_to(character:Character,location:Vector2):
-	if $World.get_used_cells().has(location) and $World.get_cellv(location) != 0:
+	if $World.get_used_cells().has(location) and $World.get_cellv(location) != 0 and character.characterStats["AP"] > 0:
 		var characterLocation = $World.world_to_map(character.position)
 		var path:PoolVector2Array = Movement_Manager.get_shortest_path(characterLocation, location)
 		path.remove(0) #Uncessesary first point that is just the character's current location

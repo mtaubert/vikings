@@ -2,6 +2,7 @@ extends Control
 
 func _ready():
 	Game_Manager.connect("pass_turn", self, "toggle_pass_turn_button")
+	$Character_Info.hide()
 	for child in $Actions.get_children():
 		child.set_action(null)
 		child.connect("action_pressed", Combat_Manager, "action_selected")
@@ -10,8 +11,8 @@ func _ready():
 func game_start():
 	$Game_Details.show()
 	var playerCharacterNames = []
-	for pos in AI_Manager.playerCharacters:
-		playerCharacterNames.append(AI_Manager.playerCharacters[pos].characterName)
+	for character in AI_Manager.playerCharacters:
+		playerCharacterNames.append(character.characterName)
 	for child in $Game_Details/Player_Characters.get_children():
 		if child.get_index() < playerCharacterNames.size():
 			child.show()
@@ -20,8 +21,8 @@ func game_start():
 			child.hide()
 	
 	var aiCharacterNames = []
-	for pos in AI_Manager.aiCharacters:
-		aiCharacterNames.append(AI_Manager.aiCharacters[pos].characterName)
+	for character in AI_Manager.aiCharacters:
+		aiCharacterNames.append(character.characterName)
 	for child in $Game_Details/AI_Characters.get_children():
 		if child.get_index() < aiCharacterNames.size():
 			child.show()
@@ -48,8 +49,14 @@ func select_character(character:Character):
 			child.set_action(actions[child.get_index()])
 		else:
 			child.set_action(null)
+	
+	$Character_Info.show()
+	$Character_Info/Portrait.texture = Character_Manager.characterData[character.characterName]["Portrait"]
+	$Character_Info/Name.text = character.characterName
 
 #Clears character selection
 func unselect_character():
 	for child in $Actions.get_children():
 		child.set_action(null)
+	
+	$Character_Info.hide()

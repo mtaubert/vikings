@@ -28,6 +28,14 @@ var isPlayerTurn:bool = true
 
 func pass_turn():
 	isPlayerTurn = !isPlayerTurn
+	
+	if isPlayerTurn:
+		for character in AI_Manager.playerCharacters:
+			character.refresh()
+	else:
+		for character in AI_Manager.aiCharacters:
+			character.refresh()
+	
 	emit_signal("pass_turn", isPlayerTurn)
 
 #Game and turn logic----------------------------------------------------------------------------------------------------------------------------

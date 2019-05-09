@@ -1,8 +1,8 @@
 extends Node
 
-var aiCharacters = {}
-var playerCharacters = {}
-var currentSelectedCharacter:Vector2
+var aiCharacters = []
+var playerCharacters = []
+var currentSelectedCharacter:int
 
 #Setup ================================================================================================
 func _ready():
@@ -14,21 +14,21 @@ func setup_ai(entities):
 		var entity:Character = entities[pos]
 		if entity.type == Globals.ENTITY_TYPE.CHARACTER:
 			if entity.isPlayerOwned:
-				playerCharacters[pos]= entity
+				playerCharacters.append(entity)
 			else:
-				aiCharacters[pos] = entity
+				aiCharacters.append(entity)
 				entity.connect("done_moving", self, "next_character_action")
 	
 	if aiCharacters.size() > 0:
-		currentSelectedCharacter = aiCharacters.keys().front() #Selects the first ai character
+		currentSelectedCharacter = 0 #Selects the first ai character
 	
 	print("The heroes:")
-	for pos in playerCharacters:
-		print(playerCharacters[pos].characterName)
+	for character in playerCharacters:
+		print(character.characterName)
 	
 	print("The villains:")
-	for pos in aiCharacters:
-		print(aiCharacters[pos].characterName)
+	for character in aiCharacters:
+		print(character.characterName)
 #Setup ================================================================================================
 
 #AI actions =========================================================================================== 
@@ -39,16 +39,20 @@ func turn_passed(isPlayerTurn):
 		move_current_selected_character()
 
 func move_current_selected_character():
-	print(aiCharacters[currentSelectedCharacter].characterName + " is moving")
+	print(String(currentSelectedCharacter) + " is moving")
+	print(String(aiCharacters[currentSelectedCharacter].characterStats["AP"]))
 	var targets = Game_Manager.get_current_level_empty_cells()
 	var target = targets[randi()%targets.size()]
 	emit_signal("ai_character_move", aiCharacters[currentSelectedCharacter], target)
 
 func next_character_action():
-	if aiCharacters.keys().back() == currentSelectedCharacter:
-		Game_Manager.pass_turn()
-		currentSelectedCharacter = aiCharacters.keys().front() #Selects the first ai character
-	else:
-		currentSelectedCharacter = aiCharacters.keys()[aiCharacters.keys().find(currentSelectedCharacter)+1] #Grabs the next key from the aiCharacters dict
+	if aiCharacters[currentSelectedCharacter].characterStats["AP"] > 0:
 		move_current_selected_character()
+	else:
+		if aiCharacters.size()-1 == currentSelectedCharacter:
+			Game_Manager.pass_turn()
+			currentSelectedCharacter = 0 #Selects the first ai character
+		else:
+			currentSelectedCharacter += 1 #selects the next character
+			move_current_selected_character()
 #AI actions ===========================================================================================

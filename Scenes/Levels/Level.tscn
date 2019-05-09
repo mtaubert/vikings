@@ -35,4 +35,3 @@ script = ExtResource( 4 )
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
 
 [node name="UI" parent="Camera/CanvasLayer" instance=ExtResource( 5 )]
-

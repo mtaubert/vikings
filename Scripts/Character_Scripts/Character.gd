@@ -37,27 +37,38 @@ func setup(nameIn, playerOwned):
 	$Character_Info/Character_Stats/Heatlh.max_value = characterStats["Life"]
 	$Character_Info/Character_Stats/Heatlh.value = characterStats["Life"]
 	$Character_Info/Icon.texture = Character_Manager.characterData[characterName]["Portrait"]
+	$Character_Info/AP.text = String(characterStats["AP"])
 
 #Movement ====================================================================================
 var movementPoints:PoolVector2Array = []
 
+#Starts moving the character
 func move_character(points:PoolVector2Array):
+	characterStats["AP"] -= 1
+	$Character_Info/AP.text = String(characterStats["AP"])
 	if currentState == CHARACTER_STATE.IDLE:
 		currentState = CHARACTER_STATE.MOVING
 		movementPoints = points
 		move_to_next_point()
 
+#Tween movement to the next point
 func move_to_next_point():
 	$Movement_Tween.interpolate_property(self, "position", position, movementPoints[0], 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	$Movement_Tween.start()
 	movementPoints.remove(0)
 
+#Loops until no more points to move to
 func _on_Movement_Tween_tween_completed(object, key):
 	if movementPoints.size() > 0:
 		move_to_next_point()
 	else:
 		emit_signal("done_moving")
 		currentState = CHARACTER_STATE.IDLE
+
+#Reset character AP
+func refresh():
+	characterStats["AP"] = characterStats["Max_Ap"]
+	$Character_Info/AP.text = String(characterStats["AP"])
 #Movement ====================================================================================
 
 #Selection ===================================================================================

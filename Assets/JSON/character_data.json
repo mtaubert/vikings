@@ -38,6 +38,7 @@
 	"Surtr Demon": {
 		"Color": "303030",
 		"Life": 25,
+		"Abilities": ["slash"],
 		"Stats": {
 			"Strength": 5,
 			"Speed": 4

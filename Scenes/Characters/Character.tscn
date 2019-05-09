@@ -42,15 +42,23 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource( 3 )
 
-[node name="Character_Stats" type="VBoxContainer" parent="Character_Info"]
+[node name="AP" type="Label" parent="Character_Info"]
 margin_left = 204.0
+margin_top = 72.0
+margin_right = 228.0
+margin_bottom = 128.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+
+[node name="Character_Stats" type="VBoxContainer" parent="Character_Info"]
+margin_left = 232.0
 margin_right = 600.0
 margin_bottom = 200.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Name" type="Label" parent="Character_Info/Character_Stats"]
-margin_right = 396.0
+margin_right = 368.0
 margin_bottom = 98.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -60,14 +68,13 @@ valign = 1
 
 [node name="Heatlh" type="ProgressBar" parent="Character_Info/Character_Stats"]
 margin_top = 102.0
-margin_right = 396.0
+margin_right = 368.0
 margin_bottom = 200.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 4 )
 step = 1.0
 value = 50.0
-
 [connection signal="tween_completed" from="Movement_Tween" to="." method="_on_Movement_Tween_tween_completed"]
 [connection signal="input_event" from="Character_Kinematic_Body" to="." method="_on_Character_Kinematic_Body_input_event"]
 [connection signal="mouse_entered" from="Character_Kinematic_Body" to="." method="show_character_info"]
