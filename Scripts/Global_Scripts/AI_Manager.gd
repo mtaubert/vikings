@@ -36,17 +36,19 @@ signal ai_character_move(character, location)
 
 func turn_passed(isPlayerTurn):
 	if not isPlayerTurn:
-		move_current_selected_character()
+		next_character_action()
 
 func move_current_selected_character():
-	print(String(currentSelectedCharacter) + " is moving")
-	print(String(aiCharacters[currentSelectedCharacter].characterStats["AP"]))
+	#print(String(currentSelectedCharacter) + " is moving")
+	#print(String(aiCharacters[currentSelectedCharacter].characterStats["AP"]))
 	var targets = Game_Manager.get_current_level_empty_cells()
 	var target = targets[randi()%targets.size()]
 	emit_signal("ai_character_move", aiCharacters[currentSelectedCharacter], target)
 
 func next_character_action():
 	if aiCharacters[currentSelectedCharacter].characterStats["AP"] > 0:
+		print(String(currentSelectedCharacter) + " is moving")
+		print(String(aiCharacters[currentSelectedCharacter].characterStats["AP"]))
 		move_current_selected_character()
 	else:
 		if aiCharacters.size()-1 == currentSelectedCharacter:
@@ -54,5 +56,5 @@ func next_character_action():
 			currentSelectedCharacter = 0 #Selects the first ai character
 		else:
 			currentSelectedCharacter += 1 #selects the next character
-			move_current_selected_character()
+			next_character_action()
 #AI actions ===========================================================================================

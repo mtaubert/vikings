@@ -62,8 +62,8 @@ func _on_Movement_Tween_tween_completed(object, key):
 	if movementPoints.size() > 0:
 		move_to_next_point()
 	else:
-		emit_signal("done_moving")
 		currentState = CHARACTER_STATE.IDLE
+		emit_signal("done_moving")
 
 #Reset character AP
 func refresh():
