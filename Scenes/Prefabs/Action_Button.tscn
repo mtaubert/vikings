@@ -4,7 +4,7 @@
 [ext_resource path="res://Assets/Prefabs/action_button_focus.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Prefabs/action_button_disabled.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Prefab_Scripts/Action_Button.gd" type="Script" id=4]
-[ext_resource path="res://Assets/Actions/punch.PNG" type="Texture" id=5]
+[ext_resource path="res://Assets/Actions/quick_shot.png" type="Texture" id=5]
 
 [node name="Action_Button" type="TextureButton"]
 margin_right = 64.0
@@ -21,5 +21,4 @@ show_behind_parent = true
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 5 )
 centered = false
-
 [connection signal="pressed" from="." to="." method="action_pressed"]

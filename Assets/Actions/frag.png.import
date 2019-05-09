@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/fireball.PNG-80f37a3383e6f8da7c204f796af94397.stex"
+path="res://.import/frag.png-3644b7eaccdae19f2b1e7ee9a873c0f1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Actions/fireball.PNG"
-dest_files=[ "res://.import/fireball.PNG-80f37a3383e6f8da7c204f796af94397.stex" ]
+source_file="res://Assets/Actions/frag.png"
+dest_files=[ "res://.import/frag.png-3644b7eaccdae19f2b1e7ee9a873c0f1.stex" ]
 
 [params]
 

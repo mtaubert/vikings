@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/punch.PNG-9c7e253b25c706fc91511d93c9444213.stex"
+path="res://.import/quick_shot.png-0bc99ca9d90903a08c689f3c371bc343.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Actions/punch.PNG"
-dest_files=[ "res://.import/punch.PNG-9c7e253b25c706fc91511d93c9444213.stex" ]
+source_file="res://Assets/Actions/quick_shot.png"
+dest_files=[ "res://.import/quick_shot.png-0bc99ca9d90903a08c689f3c371bc343.stex" ]
 
 [params]
 

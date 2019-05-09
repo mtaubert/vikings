@@ -1,26 +1,26 @@
 {
-	"punch": {
+	"quick_shot": {
 		"damage": 5,
 		"range": 1,
 		"area": ["(0,0)"],
 		"effects": []
 	},
-	"slash": {
+	"scorch": {
 		"damage": 10,
 		"range": 2,
 		"area": ["(0,0)"],
-		"effects": ["bleeding"]
+		"effects": ["burning"]
 	},
-	"smash": {
+	"stun": {
 		"damage": 8,
 		"range": 2,
 		"area": ["(0,0)"],
 		"effects": ["stunned"]
 	},
-	"fireball": {
+	"frag": {
 		"damage": 3,
 		"range": 6,
 		"area": ["(0,0)", "(1,0)", "(0,1)", "(-1,0)", "(0,-1)"],
-		"effects": ["burning"]
+		"effects": ["bleeding"]
 	}
 }

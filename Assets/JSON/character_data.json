@@ -2,7 +2,7 @@
 	"Ragna": {
 		"Color": "FF0000",
 		"Life": 21,
-		"Abilities": ["punch", "slash"],
+		"Abilities": ["quick_shot", "stun"],
 		"Stats": {
 			"Strength": 7,
 			"Speed": 4
@@ -11,7 +11,7 @@
 	"Arnor": {
 		"Color": "00FF00",
 		"Life": 20,
-		"Abilities": ["punch", "smash"],
+		"Abilities": ["quick_shot", "scorch"],
 		"Stats": {
 			"Strength": 8,
 			"Speed": 4
@@ -20,7 +20,7 @@
 	"Thorbrand": {
 		"Color": "0000FF",
 		"Life": 22,
-		"Abilities": ["punch", "slash", "smash"],
+		"Abilities": ["quick_shot", "stun", "scorch"],
 		"Stats": {
 			"Strength": 6,
 			"Speed": 4
@@ -29,7 +29,7 @@
 	"Vali": {
 		"Color": "FF00FF",
 		"Life": 18,
-		"Abilities": ["slash", "fireball"],
+		"Abilities": ["stun", "frag"],
 		"Stats": {
 			"Strength": 10,
 			"Speed": 4
@@ -38,7 +38,7 @@
 	"Surtr Demon": {
 		"Color": "303030",
 		"Life": 25,
-		"Abilities": ["slash"],
+		"Abilities": ["quick_shot"],
 		"Stats": {
 			"Strength": 5,
 			"Speed": 4
