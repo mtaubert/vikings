@@ -36,7 +36,10 @@ signal ai_character_move(character, location)
 
 func turn_passed(isPlayerTurn):
 	if not isPlayerTurn:
-		next_character_action()
+		if aiCharacters.size() > 0:
+			next_character_action()
+		else:
+			Game_Manager.pass_turn()
 
 func move_current_selected_character():
 	#print(String(currentSelectedCharacter) + " is moving")

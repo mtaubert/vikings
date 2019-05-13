@@ -76,7 +76,7 @@ signal selected()
 
 func _process(delta):
 	if currentCamera:
-		$Character_Info.rect_scale = currentCamera.zoom
+		$Character_Info.rect_scale = currentCamera.zoom/2
 	else:
 		currentCamera = Globals.get("camera")
 
@@ -108,3 +108,5 @@ func heal(heal):
 		characterStats["Life"] = characterStats["Max_Life"]
 	$Character_Info/Character_Stats/Heatlh.value = characterStats["Life"]
 #Damage ======================================================================================
+
+

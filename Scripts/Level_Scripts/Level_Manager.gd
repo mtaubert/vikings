@@ -12,6 +12,7 @@ func _ready():
 	randomize()
 	tileOffset = Vector2(0,$World.cell_size.y/2)
 	AI_Manager.connect("ai_character_move", self, "move_character_to")
+	$Camera/CanvasLayer/UI.connect("action_pressed", self, "get_valid_targets_for_action")
 	
 	setup_level() #Adds some smaller entities to the grid
 	$World/Selector.set_valid_cells(get_valid_cells()) #Sets up the selector to know which cells are valid
@@ -49,6 +50,7 @@ func update_managers_with_level_data():
 		match child.type:
 			Globals.ENTITY_TYPE.CHARACTER:
 				child.connect("selected", self, "select_entity")
+				child.connect("done_moving", self, "hide_movement_line")
 	Game_Manager.new_level_entities(entities)
 	
 	#Gets data on each cell being used and sends in to the movement manager to set up the level's astar node
@@ -80,6 +82,7 @@ func spawn_players():
 		newCharacter.position = $World.map_to_world(newCharacterSpawn) + tileOffset #Snaps the character to the grid
 		newCharacter.setup(Player_Manager.party[i], true) #Sets up the character as the correct party member
 		newCharacter.connect("selected", self, "select_entity") #Connects the signal for selecting the player
+		newCharacter.connect("done_moving", self, "hide_movement_line")
 		
 		Game_Manager.currentLevelEntities[newCharacterSpawn] = newCharacter #Adds the character to the level entries dictionary
 		validSpawns.erase(newCharacterSpawn) #Removes the spawn location from the list of valid spawns
@@ -108,15 +111,17 @@ func set_camera_limits():
 
 #Selecting Entities ==================================================================================
 var selectedEntity = null
+var validTargets = []
+var selectingTargets = false
 #User input
 func _input(event):
-	if event.is_action_pressed("game_move"): #Right click
+	if event.is_action_pressed("game_interact"): #Right click
 		if selectedEntity != null and Game_Manager.isPlayerTurn:
 			match selectedEntity.type:
 				Globals.ENTITY_TYPE.CHARACTER:
 					if selectedEntity.isPlayerOwned:
 						move_character_to(selectedEntity, $World.world_to_map(get_global_mouse_position()))
-	elif event.is_action_pressed("game_select"):
+	elif event.is_action_pressed("game_select"): #Left click
 		var selectedCell = $World.world_to_map(get_global_mouse_position())
 		if Game_Manager.currentLevelEntities.has(selectedCell):
 			select_entity(Game_Manager.currentLevelEntities[selectedCell])
@@ -132,7 +137,8 @@ func select_entity(entity):
 				Globals.ENTITY_TYPE.CHARACTER:
 					$World/Selector.show_selector()
 					$Camera/CanvasLayer/UI.select_character(selectedEntity)
-		#get_reachable_cells()
+					get_reachable_cells()
+					#get_valid_targets_for_action(selectedEntity, "frag")
 	else:
 		$World/Movement_Line.hide()
 		$World/Selector.hide_selector()
@@ -140,39 +146,75 @@ func select_entity(entity):
 #Highlights the cells that can be reached by the character
 func get_reachable_cells():
 	$World/Movement_Line.show()
-	var reachableCells = Movement_Manager.get_furthest_reachable_points($World.world_to_map(selectedEntity.position), 2)
-	var worldPosPath = []
-	for point in reachableCells:
-		if !reachableCells.has(point + Vector2(1,0)) or !reachableCells.has(point + Vector2(-1,0)) or !reachableCells.has(point + Vector2(0,1)) or !reachableCells.has(point + Vector2(0,-1)):
-			worldPosPath.append($World.map_to_world(point) + tileOffset)
+	var reachableCells = Movement_Manager.get_furthest_reachable_points($World.world_to_map(selectedEntity.position), 4)
+	var outline = []
 	
-	print(worldPosPath)
-	$World/Movement_Line.points = worldPosPath
+	var cellSize = $World.cell_size
+	reachableCells.sort()
+	
+	for point in reachableCells:
+		#All 4 corners of the cell
+		var left = $World.map_to_world(point) - Vector2(cellSize.x/2, -cellSize.y/2)
+		var top = $World.map_to_world(point)
+		var right = $World.map_to_world(point) + Vector2(cellSize.x/2, cellSize.y/2)
+		var bottom = $World.map_to_world(point) +Vector2(0,cellSize.y)
+
+		if !reachableCells.has(point + Vector2(1,0)): #left cell not reachable
+			outline.append(right)
+			outline.append(bottom)
+		if !reachableCells.has(point + Vector2(-1,0)): #right cel
+			outline.append(left)
+			outline.append(top)
+		if !reachableCells.has(point + Vector2(0,1)): 
+			outline.append(left)
+			outline.append(bottom)
+		if !reachableCells.has(point + Vector2(0,-1)):
+			outline.append(right)
+			outline.append(top)
+	#outline.sort()
+	$World/Movement_Line.points = outline
 #Selecting Entities ==================================================================================
 
-#Entity selection and movement =======================================================================
+#Entity selection, movement and combat================================================================
 #Moves the selected entity to the selected location
 func move_character_to(character:Character,location:Vector2):
 	if $World.get_used_cells().has(location) and $World.get_cellv(location) != 0 and character.characterStats["AP"] > 0:
 		var characterLocation = $World.world_to_map(character.position)
 		var path:PoolVector2Array = Movement_Manager.get_shortest_path(characterLocation, location)
-		path.remove(0) #Uncessesary first point that is just the character's current location
 		
 		var worldPosPath:PoolVector2Array = []
 		var distance = 0
 		for point in path:
-			if distance < character.characterStats["Movement_Max"]:
+			if distance <= character.characterStats["Movement_Max"]:
 				worldPosPath.append($World.map_to_world(point) + tileOffset)
 				distance += 1
 			else:
 				break
-
+		$World/Movement_Line.points = worldPosPath
+		$World/Movement_Line.show()
+		worldPosPath.remove(0) #Uncessesary first point that is just the character's current location
 		character.move_character(worldPosPath)
 		
 		#Adds the character to the new location they are at
 		Game_Manager.currentLevelEntities.erase(characterLocation)
 		Game_Manager.currentLevelEntities[location] = selectedEntity
-#Entity selection and movement =======================================================================
+
+#Hides the movement line when the character is done moving
+func hide_movement_line():
+	$World/Movement_Line.hide()
+
+#Gets every valid target for the action
+func get_valid_targets_for_action(character:Character, action):
+	var pos = $World.world_to_map(character.position)
+	var possibleTargers = Combat_Manager.get_valid_targets(pos, Combat_Manager.actionData[action]["range"])
+	validTargets = []
+	for target in possibleTargers:
+		if Game_Manager.currentLevelEntities.has(target) and target != pos:
+			if Game_Manager.currentLevelEntities[target].type == Globals.ENTITY_TYPE.CHARACTER:
+				validTargets.append(target)
+	
+	print(validTargets)
+#Entity selection, movement and combat================================================================
 
 
 func pass_turn():

@@ -1,5 +1,7 @@
 extends Control
 
+signal action_pressed(selectedCharacter, action)
+
 #Setup ==========================================================================================================================
 func _ready():
 	Game_Manager.connect("pass_turn", self, "toggle_pass_turn_button")
@@ -50,7 +52,7 @@ var selectedCharacter:Character = null
 
 func action_pressed(action):
 	if selectedCharacter != null:
-		Combat_Manager.action_selected(selectedCharacter, action)
+		emit_signal("action_pressed", selectedCharacter, action)
 
 #Selects a character
 func select_character(character:Character):
